@@ -34,7 +34,7 @@ const topics: MainTopic[] = [
   },
   {
     id: 'upper-ext-2',
-    title: 'UPPER EXTREMITY PATTERN BREAKOUTS',
+    title: 'UPPER EXTREMITY PATTERN BREAKOUTS 2',
     subtopics: [
       {
         id: 'upper-b',

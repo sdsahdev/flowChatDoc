@@ -6,6 +6,7 @@ import MainTopicList from '../screens/MainTopicList';
 import SubtopicList from '../screens/SubtopicList';
 import {Subtopic, DecisionTree} from '../types/types';
 import DecisionTreeScreen from '../screens/DecisionScreen';
+import SplashScreen from '../screens/SplashScreen';
 
 export type RootStackParamList = {
   MainTopicList: undefined;
@@ -17,7 +18,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName="MainTopicList">
+    <Stack.Navigator initialRouteName="SplashScreen">
+
+        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
+
       <Stack.Screen
         name="MainTopicList"
         component={MainTopicList}
