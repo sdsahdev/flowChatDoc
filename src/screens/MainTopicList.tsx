@@ -21,7 +21,10 @@ const MainTopicList = () => {
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('SubtopicList', {subtopics: item.subtopics})
+              navigation.navigate('SubtopicList', {
+                subtopics: item.subtopics,
+                mainTopicName: item.title,
+              })
             }
             style={{
               padding: 16,

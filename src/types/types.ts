@@ -1,8 +1,11 @@
+import {ImageSourcePropType} from 'react-native';
+
 export interface DecisionTreeNode {
   question: string;
-  alertType?: 'warning' |'danger'|'success';
-  autoNext?: string,
+  alertType?: 'warning' | 'danger' | 'success';
+  autoNext?: string;
   options: {label: string; next: string}[];
+  image?: string | ImageSourcePropType;
 }
 
 export interface DecisionTree {

@@ -10,8 +10,8 @@ import SplashScreen from '../screens/SplashScreen';
 
 export type RootStackParamList = {
   MainTopicList: undefined;
-  SubtopicList: {subtopics: Subtopic[]};
-  DecisionTreeScreen: {tree: DecisionTree};
+  SubtopicList: {subtopics: Subtopic[]; mainTopicName: string};
+  DecisionTreeScreen: {tree: DecisionTree; subtopicName: string};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -19,8 +19,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const AppNavigator = () => (
   <NavigationContainer>
     <Stack.Navigator initialRouteName="SplashScreen">
-
-        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="SplashScreen"
+        component={SplashScreen}
+        options={{headerShown: false}}
+      />
 
       <Stack.Screen
         name="MainTopicList"
@@ -32,11 +35,17 @@ const AppNavigator = () => (
         name="SubtopicList"
         component={SubtopicList}
         options={{title: 'Subtopics'}}
+        options={({route}) => ({
+          title: route.params.mainTopicName,
+        })}
       />
       <Stack.Screen
         name="DecisionTreeScreen"
         component={DecisionTreeScreen}
-        options={{title: 'Decision Flow'}}
+        // options={{title: 'Decision Flow'}}
+        options={({route}) => ({
+          title: route.params.subtopicName,
+        })}
       />
     </Stack.Navigator>
   </NavigationContainer>

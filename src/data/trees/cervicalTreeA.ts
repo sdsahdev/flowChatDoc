@@ -9,6 +9,7 @@ const cervicalTreeA: DecisionTree = {
       {label: 'DP', next: 'passiveFlex'},
       {label: 'FP', next: 'passiveFlex'},
     ],
+    image: require('../../assets/image/splash.jpeg'),
   },
 
   posturalSMCD: {

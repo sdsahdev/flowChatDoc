@@ -19,8 +19,10 @@ const SubtopicList = () => {
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('DecisionTreeScreen', {tree: item.tree}),
-                console.log(item);
+              navigation.navigate('DecisionTreeScreen', {
+                tree: item.tree,
+                subtopicName: item.title,
+              });
             }}
             style={{
               padding: 16,

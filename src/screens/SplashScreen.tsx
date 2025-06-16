@@ -27,7 +27,6 @@
 //   onEnd={() => navigation.replace('MainTopicList')}
 // />
 
-
 //     </View>
 //   );
 // };
@@ -48,10 +47,9 @@
 
 // export default SplashScreen;
 
-
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Image} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import Video from 'react-native-video';
 
 const SplashScreen = () => {
@@ -61,7 +59,7 @@ const SplashScreen = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.replace('MainTopicList');
-    }, 10000); // Match this with your video duration
+    }, 4000); // Match this with your video duration
     return () => clearTimeout(timer);
   }, []);
 
@@ -77,17 +75,16 @@ const SplashScreen = () => {
       )}
 
       <Video
-  source={require('../assets/videos/splashScreenV.mp4')}
-  style={[styles.video, { opacity: videoStarted ? 1 : 0 }]}
-  // resizeMode="cover"
-  muted
-  paused={false}
-  repeat={false}
-  onLoadStart={() => setVideoStarted(false)}
-  onReadyForDisplay={() => setVideoStarted(true)}
-  onEnd={() => navigation.replace('MainTopicList')}
-/>
-
+        source={require('../assets/videos/splashScreenV.mp4')}
+        style={[styles.video, {opacity: videoStarted ? 1 : 0}]}
+        // resizeMode="cover"
+        muted
+        paused={false}
+        repeat={false}
+        onLoadStart={() => setVideoStarted(false)}
+        onReadyForDisplay={() => setVideoStarted(true)}
+        onEnd={() => navigation.replace('MainTopicList')}
+      />
     </View>
   );
 };
@@ -103,7 +100,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor:'#ffff'
+    // backgroundColor: '#ffff',
   },
 });
 

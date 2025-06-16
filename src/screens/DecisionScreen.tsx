@@ -1,10 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+  Image,
+} from 'react-native';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {DecisionTree} from '../types/types';
 import {Fonts} from '../theme/fonts';
 
-const DecisionTreeScreen  = () => {
+const DecisionTreeScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const tree = route.params.tree;
@@ -22,19 +29,18 @@ const DecisionTreeScreen  = () => {
   //   }
   // };
   const handleNextPress = () => {
-  if (selectedOption) {
-    const chosen = node.options.find(opt => opt.label === selectedOption);
+    if (selectedOption) {
+      const chosen = node.options.find(opt => opt.label === selectedOption);
 
-    if (chosen?.next && tree[chosen.next]) {
-      setHistory(prev => [...prev, chosen.next]);
-      setSelectedOption(null);
-    } else {
-      Alert.alert('Error', 'Next question not found.');
-      console.error('Invalid next node:', chosen?.next);
+      if (chosen?.next && tree[chosen.next]) {
+        setHistory(prev => [...prev, chosen.next]);
+        setSelectedOption(null);
+      } else {
+        Alert.alert('Error', 'Next question not found.');
+        console.error('Invalid next node:', chosen?.next);
+      }
     }
-  }
-};
-
+  };
 
   const handleBack = () => {
     if (history.length <= 1) {
@@ -111,7 +117,20 @@ const DecisionTreeScreen  = () => {
             }}>
             {node.question}
           </Text>
-
+          {node.image && (
+            <Image
+              source={
+                typeof node.image === 'string' ? {uri: node.image} : node.image
+              }
+              style={{
+                width: '100%',
+                height: 200,
+                resizeMode: 'contain',
+                marginBottom: 16,
+                borderRadius: 8,
+              }}
+            />
+          )}
           {node.options.length > 0 ? (
             <View>
               {node.options.map((option, idx) => {
@@ -161,54 +180,56 @@ const DecisionTreeScreen  = () => {
           )}
 
           {/* Next Button */}
-      {node.options.length > 0 && (
-  <View
-    style={{
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginTop: 30,
-    }}>
-    {/* Back Button (left) */}
-    {history.length > 1 ? (
-      <TouchableOpacity
-        onPress={handleBack}
-        style={{
-          backgroundColor: '#999',
-          paddingVertical: 14,
-          paddingHorizontal: 20,
-          borderRadius: 8,
-          flex: 1,
-          marginRight: 8,
-        }}>
-        <Text style={{color: '#fff', textAlign: 'center'}}>← Back</Text>
-      </TouchableOpacity>
-    ) : (
-      <View style={{flex: 1, marginRight: 8}} />
-    )}
+          {node.options.length > 0 && (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 30,
+              }}>
+              {/* Back Button (left) */}
+              {history.length > 1 ? (
+                <TouchableOpacity
+                  onPress={handleBack}
+                  style={{
+                    backgroundColor: '#999',
+                    paddingVertical: 14,
+                    paddingHorizontal: 20,
+                    borderRadius: 8,
+                    flex: 1,
+                    marginRight: 8,
+                  }}>
+                  <Text style={{color: '#fff', textAlign: 'center'}}>
+                    ← Back
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <View style={{flex: 1, marginRight: 8}} />
+              )}
 
-    {/* Next Button (right) */}
-    <TouchableOpacity
-      disabled={!selectedOption}
-      onPress={handleNextPress}
-      style={{
-        backgroundColor: selectedOption ? '#7f3dff' : '#ccc',
-        paddingVertical: 14,
-        paddingHorizontal: 20,
-        borderRadius: 8,
-        flex: 1,
-        marginLeft: 8,
-      }}>
-      <Text
-        style={{
-          color: '#fff',
-          textAlign: 'center',
-          fontFamily: Fonts.fontABold,
-        }}>
-        Next →
-      </Text>
-    </TouchableOpacity>
-  </View>
-)}
+              {/* Next Button (right) */}
+              <TouchableOpacity
+                disabled={!selectedOption}
+                onPress={handleNextPress}
+                style={{
+                  backgroundColor: selectedOption ? '#7f3dff' : '#ccc',
+                  paddingVertical: 14,
+                  paddingHorizontal: 20,
+                  borderRadius: 8,
+                  flex: 1,
+                  marginLeft: 8,
+                }}>
+                <Text
+                  style={{
+                    color: '#fff',
+                    textAlign: 'center',
+                    fontFamily: Fonts.fontABold,
+                  }}>
+                  Next →
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </>
       )}
     </ScrollView>
@@ -216,9 +237,6 @@ const DecisionTreeScreen  = () => {
 };
 
 export default DecisionTreeScreen;
-
-
-
 
 // import React, {useState,useEffect} from 'react';
 // import {View, Text, TouchableOpacity, ScrollView,Alert} from 'react-native';
@@ -249,7 +267,7 @@ export default DecisionTreeScreen;
 //   //   } else {
 //   //     navigation.goBack(); // fallback
 //   //   }
-//   // }; 
+//   // };
 
 //   const handleBack = () => {
 //   if (history.length <= 1) {
@@ -277,7 +295,6 @@ export default DecisionTreeScreen;
 //     setHistory(newHistory);
 //   }
 // };
-
 
 //   const handleBackToSubtopics = () => {
 //     navigation.goBack();
@@ -312,12 +329,6 @@ export default DecisionTreeScreen;
 //   }
 // }, [node]);
 
-   
-
-
-
-
-
 //   return (
 //     <ScrollView contentContainerStyle={{padding: 20}}>
 //       {!node.alertType && <>
@@ -341,7 +352,7 @@ export default DecisionTreeScreen;
 //         ))
 //       ) : (
 //         <>
-        
+
 //           <Text style={{fontSize: 16, color: 'green', marginBottom: 16}}>
 //             End of flowchart.
 //           </Text>
@@ -352,7 +363,7 @@ export default DecisionTreeScreen;
 //               Back to Subtopics
 //             </Text>
 //           </TouchableOpacity>
-          
+
 //         </>
 //       )}
 
@@ -369,9 +380,9 @@ export default DecisionTreeScreen;
 //             Back to Previous Question
 //           </Text>
 //         </TouchableOpacity>
-        
+
 //       )}
-    
+
 //       </>}
 //     </ScrollView>
 //   );
