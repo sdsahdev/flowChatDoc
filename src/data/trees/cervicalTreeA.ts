@@ -10,10 +10,13 @@ const cervicalTreeA: DecisionTree = {
       {label: 'FP', next: 'passiveFlex'},
     ],
   },
+
   posturalSMCD: {
     question:
       'There is a Postural SMCD affecting Cervical Flexion. This includes Cervical Spine, Thoracic Spine and Shoulder Girdle postural dysfunction.',
     options: [],
+    alertType: 'success', // green
+    autoNext: 'end',
   },
   passiveFlex: {
     question: 'Passive Supine Cervical Flexion Test',
@@ -24,9 +27,12 @@ const cervicalTreeA: DecisionTree = {
       {label: 'FP', next: 'activeOAFlex'},
     ],
   },
+
   cervicalSpineSMCD: {
     question: 'Active Cervical Spine Flexion SMCD',
     options: [],
+    alertType: 'success', // yellow
+    autoNext: 'end',
   },
   activeOAFlex: {
     question: 'Active Supine OA Cervical Flexion Test (20°)',
@@ -37,19 +43,31 @@ const cervicalTreeA: DecisionTree = {
       {label: 'FP', next: 'oaOrCervicalJMD'},
     ],
   },
+
   oaFlexJMD: {
     question:
       'OA Flexion JMD &/or TED &/or possible Cervical Spine Flexion JMD &/or TED',
     options: [],
+    alertType: 'success', // yellow
+    autoNext: 'end',
   },
+
   oaOrCervicalJMD: {
-    question:
-      'OA Flexion JMD &/or TED &/or Cervical Spine Flexion JMD &/or TED',
+    question: 'Treat Plain',
     options: [],
+    alertType: 'danger', // yellow
+    autoNext: 'end',
   },
+
   done: {
     question:
       'If Passive Supine Cervical Flexion (PSCF) was DP or DN then treat as Cervical Spine Flexion JMD &/or TED. If PSCF was FP can also be SMCD - perform segmental testing and soft tissue appraisal.',
+    options: [],
+    alertType: 'success', // yellow
+    autoNext: 'end',
+  },
+  end: {
+    question: 'End of Flowchart',
     options: [],
   },
 };

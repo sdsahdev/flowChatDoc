@@ -2,54 +2,89 @@ import {DecisionTree} from '../../types/types';
 
 const cervicalTreeB: DecisionTree = {
   start: {
-    question: 'Active Supine Cervical Flexion Test (Chin to Chest)',
+    question: 'Active Supine Cervical Rotation Test (80°)',
     options: [
-      {label: 'FN', next: 'posturalSMCD'},
-      {label: 'DN', next: 'passiveFlex'},
-      {label: 'DP', next: 'passiveFlex'},
-      {label: 'FP', next: 'passiveFlex'},
+      {label: 'FN', next: 'posturalSMCDRotation'},
+      {label: 'DN', next: 'passiveRotation'},
+      {label: 'DP', next: 'passiveRotation'},
+      {label: 'FP', next: 'passiveRotation'},
     ],
   },
-  posturalSMCD: {
+  posturalSMCDRotation: {
     question:
-      'There is a Postural SMCD affecting Cervical Flexion. This includes Cervical Spine, Thoracic Spine and Shoulder Girdle postural dysfunction.',
+      'There is a Postural SMCD affecting Cervical Rotation. This includes Cervical Spine, Thoracic Spine and Shoulder Girdle postural dysfunction.',
     options: [],
+    alertType: 'warning', // yellow
+    autoNext: 'supineExt',
   },
-  passiveFlex: {
-    question: 'Passive Supine Cervical Flexion Test',
+  supineExt: {
+    question: 'Supine Cervical Extension',
     options: [
-      {label: 'FN', next: 'cervicalSpineSMCD'},
-      {label: 'DN', next: 'activeOAFlex'},
-      {label: 'DP', next: 'activeOAFlex'},
-      {label: 'FP', next: 'activeOAFlex'},
+      {label: 'FN', next: 'SMCD'},
+      {label: 'DN', next: 'TED'},
+      {label: 'DP', next: 'done'},
+      {label: 'FP', next: 'done'},
     ],
   },
-  cervicalSpineSMCD: {
-    question: 'Active Cervical Spine Flexion SMCD',
+  SMCD: {
+    question: 'There is Postural &/or SMCD affecting Cervical Extension.',
     options: [],
+    alertType: 'warning',
+    autoNext: 'end',
   },
-  activeOAFlex: {
-    question: 'Active Supine OA Cervical Flexion Test (20°)',
+  TED: {
+    question: 'Cervical Extension JMD &/or TED',
+    options: [],
+    alertType: 'warning',
+    autoNext: 'end',
+  },
+
+  passiveRotation: {
+    question: 'Passive Supine Cervical Rotation Test',
     options: [
-      {label: 'FN Bilat.', next: 'done'},
-      {label: 'DN', next: 'oaFlexJMD'},
-      {label: 'DP', next: 'oaOrCervicalJMD'},
-      {label: 'FP', next: 'oaOrCervicalJMD'},
+      {label: 'FN', next: 'activeRotationSMCD'},
+      {label: 'DN', next: 'c1c2Rotation'},
+      {label: 'DP', next: 'c1c2Rotation'},
+      {label: 'FP', next: 'c1c2Rotation'},
     ],
   },
-  oaFlexJMD: {
-    question:
-      'OA Flexion JMD &/or TED &/or possible Cervical Spine Flexion JMD &/or TED',
+  activeRotationSMCD: {
+    question: 'Active Cervical Spine Rotation SMCD',
     options: [],
+    alertType: 'warning', // yellow
+    autoNext: 'end',
   },
-  oaOrCervicalJMD: {
+  c1c2Rotation: {
+    question: 'C1–C2 Cervical Rotation Test',
+    options: [
+      {label: 'FN', next: 'lowerCervicalJMDorTED'},
+      {label: 'DN', next: 'c1c2JMDorTED'},
+      {label: 'FP', next: 'done'},
+      {label: 'DP', next: 'done'},
+    ],
+  },
+  lowerCervicalJMDorTED: {
     question:
-      'OA Flexion JMD &/or TED &/or Cervical Spine Flexion JMD &/or TED',
+      'If Passive Supine Cervical Rotation (PSCR) was DP or DN then treat as Lower Cervical Rotational JMD &/or TED. If PSCR was FP, can also be SMCD - perform segmental testing and soft tissue appraisal.',
     options: [],
+    alertType: 'warning', // yellow
+    autoNext: 'end',
+  },
+  c1c2JMDorTED: {
+    question:
+      'C1–C2 JMD &/or TED &/or possible Lower Cervical Spine JMD &/or TED.',
+    options: [],
+    alertType: 'warning', // yellow
+    autoNext: 'end',
   },
   done: {
-    question:
-      'If Passive Supine Cervical Flexion (PSCF) was DP or DN then treat as Cervical Spine Flexion JMD &/or TED. If PSCF was FP can also be SMCD - perform segmental testing and soft tissue appraisal.',
+    question: 'Treat Pain',
+    options: [],
+    alertType: 'warning',
+    autoNext: 'end',
+  },
+  end: {
+    question: 'End of Flowchart',
     options: [],
   },
 };

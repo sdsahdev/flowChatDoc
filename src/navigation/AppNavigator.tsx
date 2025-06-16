@@ -26,6 +26,7 @@ const AppNavigator = () => (
         name="MainTopicList"
         component={MainTopicList}
         options={{title: 'Topics'}}
+        // options={{headerShown: false}}
       />
       <Stack.Screen
         name="SubtopicList"
