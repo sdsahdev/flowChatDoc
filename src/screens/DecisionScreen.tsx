@@ -11,30 +11,39 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 import {DecisionTree} from '../types/types';
 import {Fonts} from '../theme/fonts';
 
+interface PreviousSelections {
+  [key: string]: string;
+}
+
 const DecisionTreeScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const tree = route.params.tree;
 
   const [history, setHistory] = useState(['start']);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [previousSelections, setPreviousSelections] =
+    useState<PreviousSelections>({});
 
   const currentKey = history[history.length - 1];
   const node = tree[currentKey];
 
-  // const handleNextPress = () => {
-  //   if (selectedOption) {
-  //     setHistory(prev => [...prev, selectedOption]);
-  //     setSelectedOption(null); // reset for next question
-  //   }
-  // };
+  // Set the selected option when the current node changes
+  useEffect(() => {
+    setSelectedOption(previousSelections[currentKey] || null);
+  }, [currentKey, previousSelections]);
+
   const handleNextPress = () => {
     if (selectedOption) {
       const chosen = node.options.find(opt => opt.label === selectedOption);
 
       if (chosen?.next && tree[chosen.next]) {
+        // Save the current selection before moving to next question
+        setPreviousSelections(prev => ({
+          ...prev,
+          [currentKey]: selectedOption,
+        }));
         setHistory(prev => [...prev, chosen.next]);
-        setSelectedOption(null);
       } else {
         Alert.alert('Error', 'Next question not found.');
         console.error('Invalid next node:', chosen?.next);
@@ -91,7 +100,7 @@ const DecisionTreeScreen = () => {
       ]);
     }
   }, [node]);
-  console.log(node, '===node===');
+
   if (!node) {
     return (
       <View style={{padding: 16}}>
@@ -139,7 +148,7 @@ const DecisionTreeScreen = () => {
                 return (
                   <TouchableOpacity
                     key={idx}
-                    onPress={() => setSelectedOption(option.label)} // use label here
+                    onPress={() => setSelectedOption(option.label)}
                     style={{
                       padding: 14,
                       marginVertical: 8,
@@ -199,17 +208,12 @@ const DecisionTreeScreen = () => {
                     flex: 1,
                     marginRight: 8,
                   }}>
-                  <Text style={{color: '#fff', textAlign: 'center'}}>
-                    ← Back
-                  </Text>
+                  <Text style={{color: '#fff', textAlign: 'center'}}>Back</Text>
                 </TouchableOpacity>
-              ) : (
-                <View style={{flex: 1, marginRight: 8}} />
-              )}
+              ) : null}
 
               {/* Next Button (right) */}
               <TouchableOpacity
-                disabled={!selectedOption}
                 onPress={handleNextPress}
                 style={{
                   backgroundColor: selectedOption ? '#7f3dff' : '#ccc',
@@ -217,16 +221,10 @@ const DecisionTreeScreen = () => {
                   paddingHorizontal: 20,
                   borderRadius: 8,
                   flex: 1,
-                  marginLeft: 8,
-                }}>
-                <Text
-                  style={{
-                    color: '#fff',
-                    textAlign: 'center',
-                    fontFamily: Fonts.fontABold,
-                  }}>
-                  Next →
-                </Text>
+                  marginLeft: history.length > 1 ? 8 : 0,
+                }}
+                disabled={!selectedOption}>
+                <Text style={{color: '#fff', textAlign: 'center'}}>Next</Text>
               </TouchableOpacity>
             </View>
           )}
