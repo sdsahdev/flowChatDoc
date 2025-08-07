@@ -9,7 +9,7 @@ const multiSegmentalExtThree: DecisionTree = {
       {label: 'DP', next: 'latStretchHipsFlexed'},
       {label: 'FP', next: 'latStretchHipsFlexed'},
     ],
-    image: require('../../assets/image/45-UnilateralShoulderBackwardBend.png'),
+    image: require('../../assets/image/45-shoulder_backward_bend.png'),
   },
   fnPotential: {
     question:
@@ -47,7 +47,6 @@ const multiSegmentalExtThree: DecisionTree = {
         label: 'Shoulder flexion improves but not full',
         next: 'posteriorLateralChainTED2',
       },
-      // {label: 'FP', next: 'shoulderFlexionNotFull'},
     ],
   },
 
