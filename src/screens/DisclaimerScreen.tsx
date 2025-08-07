@@ -61,10 +61,11 @@ const DisclaimerScreen = () => {
                 rights reserved. This app is an independent educational tool and
                 not an official SFMA product.
               </Text>
-              <TouchableOpacity style={styles.button} onPress={handleOk}>
-                <Text style={styles.buttonText}>OK</Text>
-              </TouchableOpacity>
             </ScrollView>
+
+            <TouchableOpacity style={styles.button} onPress={handleOk}>
+              <Text style={styles.buttonText}>OK</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>

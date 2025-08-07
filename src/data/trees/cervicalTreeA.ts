@@ -27,7 +27,7 @@ const cervicalTreeA: DecisionTree = {
       {label: 'DP', next: 'activeOAFlex'},
       {label: 'FP', next: 'activeOAFlex'},
     ],
-    image: require('../../assets/image/02-Passive Supine Cervical Flexion Test.png'),
+    image: require('../../assets/image/02-PassiveSupine.png'),
   },
 
   cervicalSpineSMCD: {
