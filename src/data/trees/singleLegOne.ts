@@ -21,11 +21,12 @@ const singleLegStanceOne: DecisionTree = {
         next: 'potentialStaticVestibularDysfunction',
       },
     ],
+    image: require('../../assets/image/69-VestibularTest-CTSIB(StaticHead).png'),
   },
 
   potentialStaticVestibularDysfunction: {
     question: 'Potential Static Vestibular Dysfunction',
-    options:[],
+    options: [],
     autoNext: 'halfKneelingNarrowBase',
     alertType: 'warning',
   },
@@ -33,17 +34,18 @@ const singleLegStanceOne: DecisionTree = {
   ctsibDynamicHead: {
     question: 'CTSIB (Dynamic Head Movement)',
     options: [
-      { label: 'FN', next: 'halfKneelingNarrowBase' },
+      {label: 'FN', next: 'halfKneelingNarrowBase'},
       {
         label: 'Dysfunctional',
         next: 'dynamicVestibularDysfunction',
       },
     ],
+    image: require('../../assets/image/70-CTSIB(DynamicHeadMovement).png'),
   },
 
   dynamicVestibularDysfunction: {
     question: 'Dynamic Vestibular Dysfunction',
-    options:[],
+    options: [],
     autoNext: 'halfKneelingNarrowBase',
     alertType: 'warning',
   },
@@ -51,17 +53,17 @@ const singleLegStanceOne: DecisionTree = {
   halfKneelingNarrowBase: {
     question: 'Half-Kneeling Narrow Base',
     options: [
-      { label: 'FN', next: 'goToSLSAnkleFlowchart' },
-      { label: 'DN', next: 'quadrupedDiagonals' },
-      { label: 'DP', next: 'quadrupedDiagonals' },
-      { label: 'FP', next: 'quadrupedDiagonals' },
-      
+      {label: 'FN', next: 'goToSLSAnkleFlow'},
+      {label: 'DN', next: 'quadrupedDiagonals'},
+      {label: 'DP', next: 'quadrupedDiagonals'},
+      {label: 'FP', next: 'quadrupedDiagonals'},
     ],
+    image: require('../../assets/image/71-Half-KneelingNarrowBase.png'),
   },
 
-  goToSLSAnkleFlowchart: {
-    question: 'Go to SLS Ankle Flowchart',
-    options:[],
+  goToSLSAnkleFlow: {
+    question: 'Go to SLS Ankle Flow',
+    options: [],
     alertType: 'success',
     autoNext: 'end',
   },
@@ -77,42 +79,43 @@ const singleLegStanceOne: DecisionTree = {
         label: 'DN',
         next: 'weightBearingHipSMCD',
       },
-       {
+      {
         label: 'DP',
         next: 'treatPainSLSAnkle',
       },
-       {
+      {
         label: 'FP',
         next: 'treatPainSLSAnkle',
       },
     ],
+    image: require('../../assets/image/72-QuadrupedDiagonals.png'),
   },
 
   weightBearingSpineSMCD: {
     question:
-      'Weight Bearing Spine &/or Hip/Core SMCD - (If Hip Extension is DN treat it first). Go to SLS Ankle Flowchart.',
-      options:[],
+      'Weight Bearing Spine &/or Hip/Core SMCD - (If Hip Extension is DN treat it first). Go to SLS Ankle Flow.',
+    options: [],
     alertType: 'success',
     autoNext: 'end',
   },
 
   treatPainSLSAnkle: {
-    question: 'Treat Pain - Go to SLS Ankle Flowchart.',
-    options:[],
+    question: 'Treat Pain - Go to SLS Ankle Flow.',
+    options: [],
     alertType: 'success',
     autoNext: 'end',
   },
 
   weightBearingHipSMCD: {
     question:
-      'Weight Bearing Hip &/or Core SMCD (If Hip Extension &/or Shoulder Flexion are DN treat those first). Go to SLS Ankle Flowchart.',
-      options:[],
+      'Weight Bearing Hip &/or Core SMCD (If Hip Extension &/or Shoulder Flexion are DN treat those first). Go to SLS Ankle Flow.',
+    options: [],
     alertType: 'success',
     autoNext: 'end',
   },
 
   end: {
-    question: 'End of Flowchart',
+    question: 'Thank you for using M-Screen..',
     options: [],
   },
 };

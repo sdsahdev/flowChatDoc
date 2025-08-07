@@ -1,54 +1,92 @@
+
 import React, {useState, useEffect} from 'react';
 import {
-  View,
-  Text,
   TouchableOpacity,
   ScrollView,
   Alert,
   Image,
+  AppState,
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import {useRoute, useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DecisionTree} from '../types/types';
 import {Fonts} from '../theme/fonts';
+import Colors from '../theme/color';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-interface PreviousSelections {
-  [key: string]: string;
-}
+const STORAGE_KEY = 'decisionTreeSelections';
 
 const DecisionTreeScreen = () => {
-  const route = useRoute();
-  const navigation = useNavigation();
-  const tree = route.params.tree;
+  const route = useRoute<any>();
+  const navigation = useNavigation<any>();
+  const {tree, subtopicName} = route.params;
 
   const [history, setHistory] = useState(['start']);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [previousSelections, setPreviousSelections] =
-    useState<PreviousSelections>({});
+  const [previousSelections, setPreviousSelections] = useState<{
+    [key: string]: {[key: string]: string};
+  }>({});
 
   const currentKey = history[history.length - 1];
   const node = tree[currentKey];
 
-  // Set the selected option when the current node changes
   useEffect(() => {
-    setSelectedOption(previousSelections[currentKey] || null);
-  }, [currentKey, previousSelections]);
-
-  const handleNextPress = () => {
-    if (selectedOption) {
-      const chosen = node.options.find(opt => opt.label === selectedOption);
-
-      if (chosen?.next && tree[chosen.next]) {
-        // Save the current selection before moving to next question
-        setPreviousSelections(prev => ({
-          ...prev,
-          [currentKey]: selectedOption,
-        }));
-        setHistory(prev => [...prev, chosen.next]);
-      } else {
-        Alert.alert('Error', 'Next question not found.');
-        console.error('Invalid next node:', chosen?.next);
+    const loadSelections = async () => {
+      try {
+        const stored = await AsyncStorage.getItem(STORAGE_KEY);
+        if (stored) setPreviousSelections(JSON.parse(stored));
+      } catch (e) {
+        console.error('Failed to load selections:', e);
       }
+    };
+
+    loadSelections();
+
+    const subscription = AppState.addEventListener('change', state => {
+      if (state === 'inactive' || state === 'background') {
+        AsyncStorage.removeItem(STORAGE_KEY);
+      }
+    });
+
+    return () => subscription.remove();
+  }, []);
+
+  useEffect(() => {
+    const selected = previousSelections[subtopicName]?.[currentKey] || null;
+    setSelectedOption(selected);
+  }, [currentKey, previousSelections, subtopicName]);
+
+  const handleNextPress = async () => {
+    if (!selectedOption) return;
+    const chosen = node.options.find(opt => opt.label === selectedOption);
+    if (!chosen || !tree[chosen.next]) {
+      Alert.alert('Error', 'Next question not found.');
+      return;
     }
+
+    const updated = {
+      ...previousSelections,
+      [subtopicName]: {
+        ...(previousSelections[subtopicName] || {}),
+        [currentKey]: selectedOption,
+      },
+    };
+
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    } catch (e) {
+      console.error('Failed to save selections:', e);
+    }
+
+    setPreviousSelections(updated);
+    setHistory(prev => [...prev, chosen.next]);
   };
 
   const handleBack = () => {
@@ -68,27 +106,15 @@ const DecisionTreeScreen = () => {
         (!lastNode.options || lastNode.options.length === 0)
       ) {
         newHistory.pop();
-      } else {
-        break;
-      }
+      } else break;
     }
 
-    if (newHistory.length === 0) {
-      navigation.goBack();
-    } else {
-      setHistory(newHistory);
-    }
+    setHistory(newHistory.length === 0 ? ['start'] : newHistory);
   };
 
   useEffect(() => {
     if (node?.alertType) {
-      const title = node.alertType === 'warning' ? '🟡 Caution' : '🔴 Alert';
-      const colorMessage =
-        node.alertType === 'warning'
-          ? 'This requires attention.'
-          : 'This is an urgent issue.';
-
-      Alert.alert('', `${node.question}`, [
+      Alert.alert('', node.question, [
         {
           text: 'OK',
           onPress: () => {
@@ -103,287 +129,229 @@ const DecisionTreeScreen = () => {
 
   if (!node) {
     return (
-      <View style={{padding: 16}}>
+      <View style={styles.container}>
         <Text>Invalid node</Text>
       </View>
     );
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: 24,
-        flexGrow: 1,
-        justifyContent: 'space-between',
-      }}>
-      {!node.alertType && (
-        <>
-          <Text
-            style={{
-              fontSize: 18,
-              fontFamily: Fonts.fontABold,
-              marginBottom: 24,
-            }}>
-            {node.question}
-          </Text>
-          {node.image && (
-            <Image
-              source={
-                typeof node.image === 'string' ? {uri: node.image} : node.image
-              }
-              style={{
-                width: '100%',
-                height: 200,
-                resizeMode: 'contain',
-                marginBottom: 16,
-                borderRadius: 8,
-              }}
-            />
-          )}
-          {node.options.length > 0 ? (
-            <View>
-              {node.options.map((option, idx) => {
-                const isSelected = selectedOption === option.label;
+    <SafeAreaView style={styles.safeArea}>
+      {/* Header */}
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle} numberOfLines={1}>
+          {subtopicName}
+        </Text>
+      </View>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {!node.alertType && (
+          <>
+            <Text style={styles.questionText}>{node.question}</Text>
 
-                return (
-                  <TouchableOpacity
-                    key={idx}
-                    onPress={() => setSelectedOption(option.label)}
-                    style={{
-                      padding: 14,
-                      marginVertical: 8,
-                      borderRadius: 8,
-                      backgroundColor: isSelected ? '#d0bcff' : '#f0f0f0',
-                      borderWidth: 2,
-                      borderColor: isSelected ? '#7f3dff' : '#ccc',
-                    }}>
-                    <Text
-                      style={{
-                        color: isSelected ? '#7f3dff' : '#333',
-                        fontWeight: '600',
-                        textAlign: 'center',
-                      }}>
-                      {option.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          ) : (
-            <View>
-              <Text style={{fontSize: 16, color: 'green', marginBottom: 20}}>
-                End of flowchart.
-              </Text>
+            {node.image && (
+              <Image
+                source={
+                  typeof node.image === 'string'
+                    ? {uri: node.image}
+                    : node.image
+                }
+                style={styles.image}
+                resizeMode="cover"
+              />
+            )}
+
+            {node.options.length > 0 ? (
+              <View>
+                {node.options.map((option, idx) => {
+                  const isSelected = selectedOption === option.label;
+                  return (
+                    <TouchableOpacity
+                      key={idx}
+                      onPress={() => setSelectedOption(option.label)}
+                      style={[
+                        styles.optionButton,
+                        isSelected && styles.optionButtonSelected,
+                      ]}>
+                      <Text
+                        style={[
+                          styles.optionText,
+                          isSelected && styles.optionTextSelected,
+                        ]}>
+                        {option.label}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            ) : (
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{
-                  backgroundColor: '#4CAF50',
-                  padding: 14,
-                  borderRadius: 8,
-                }}>
-                <Text style={{color: '#fff', textAlign: 'center'}}>
-                  Back to Subtopics
-                </Text>
+                style={styles.restartButton}>
+                <Text style={styles.restartText}>Restart Test</Text>
               </TouchableOpacity>
-            </View>
-          )}
+            )}
 
-          {/* Next Button */}
-          {node.options.length > 0 && (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 30,
-              }}>
-              {/* Back Button (left) */}
-              {history.length > 1 ? (
+            {node.options.length > 0 && (
+              <View style={styles.navigationContainer}>
+                {history.length > 1 && (
+                  <TouchableOpacity
+                    onPress={handleBack}
+                    style={styles.backNavButton}>
+                    <Text style={styles.backNavText}>Back</Text>
+                  </TouchableOpacity>
+                )}
+
                 <TouchableOpacity
-                  onPress={handleBack}
-                  style={{
-                    backgroundColor: '#999',
-                    paddingVertical: 14,
-                    paddingHorizontal: 20,
-                    borderRadius: 8,
-                    flex: 1,
-                    marginRight: 8,
-                  }}>
-                  <Text style={{color: '#fff', textAlign: 'center'}}>Back</Text>
+                  onPress={handleNextPress}
+                  style={[
+                    styles.nextNavButton,
+                    !selectedOption && styles.disabledButton,
+                  ]}
+                  disabled={!selectedOption}>
+                  <Text style={styles.nextNavText}>Next</Text>
                 </TouchableOpacity>
-              ) : null}
-
-              {/* Next Button (right) */}
-              <TouchableOpacity
-                onPress={handleNextPress}
-                style={{
-                  backgroundColor: selectedOption ? '#7f3dff' : '#ccc',
-                  paddingVertical: 14,
-                  paddingHorizontal: 20,
-                  borderRadius: 8,
-                  flex: 1,
-                  marginLeft: history.length > 1 ? 8 : 0,
-                }}
-                disabled={!selectedOption}>
-                <Text style={{color: '#fff', textAlign: 'center'}}>Next</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </>
-      )}
-    </ScrollView>
+              </View>
+            )}
+          </>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.backgroundColor,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  scrollContainer: {
+    padding: 24,
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    backgroundColor: Colors.backgroundColor,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 56,
+    backgroundColor: '#fff',
+    elevation: 4, // Android shadow
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    zIndex: 10,
+  },
+  backButton: {
+    padding: 8,
+    marginRight: 12,
+    marginLeft: 10
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#000',
+    fontFamily: Fonts.fontAMedium,
+    width:'80%',
+  },
+  questionText: {
+    fontSize: 18,
+    fontFamily: Fonts.fontABold,
+    marginBottom: 24,
+  },
+  image: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover',
+    borderRadius: 16,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  optionButton: {
+    padding: 14,
+    marginVertical: 8,
+    borderRadius: 8,
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: '#ccc',
+  },
+  optionButtonSelected: {
+    backgroundColor: '#dcf7e3',
+    borderColor: '#32bb21',
+  },
+  optionText: {
+    color: '#333',
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  optionTextSelected: {
+    color: '#32bb21',
+  },
+  restartButton: {
+    backgroundColor: '#4CAF50',
+    padding: 14,
+    borderRadius: 8,
+    marginTop: 20,
+  },
+  restartText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontFamily: Fonts.fontAMedium,
+    fontSize: 20,
+  },
+  navigationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 30,
+  },
+  backNavButton: {
+    backgroundColor: '#fff',
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    flex: 1,
+    marginRight: 8,
+    borderColor: '#32bb21',
+    borderWidth: 1,
+  },
+  backNavText: {
+    color: '#32bb21',
+    textAlign: 'center',
+    fontFamily: Fonts.fontAExtraBold,
+    fontSize: 15,
+  },
+  nextNavButton: {
+    backgroundColor: '#32bb21',
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    flex: 1,
+    marginLeft: 8,
+  },
+  nextNavText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontFamily: Fonts.fontAExtraBold,
+    fontSize: 15,
+  },
+  disabledButton: {
+    backgroundColor: '#ccc',
+  },
+});
+
 export default DecisionTreeScreen;
-
-// import React, {useState,useEffect} from 'react';
-// import {View, Text, TouchableOpacity, ScrollView,Alert} from 'react-native';
-// import {RouteProp, useRoute, useNavigation} from '@react-navigation/native';
-// import {RootStackParamList} from '../navigation/AppNavigator';
-// import {DecisionTree} from '../types/types';
-// import { Fonts } from '../theme/fonts';
-
-// type RouteProps = RouteProp<RootStackParamList, 'DecisionTreeScreen'>;
-
-// const DecisionTreeScreen = () => {
-//   const route = useRoute<RouteProps>();
-//   const navigation = useNavigation();
-//   const tree: DecisionTree = route.params.tree;
-
-//   const [history, setHistory] = useState<string[]>(['start']);
-
-//   const currentKey = history[history.length - 1];
-//   const node = tree[currentKey];
-
-//   const handleOptionSelect = (nextKey: string) => {
-//     setHistory([...history, nextKey]);
-//   };
-
-//   // const handleBack = () => {
-//   //   if (history.length > 1) {
-//   //     setHistory(history.slice(0, -1));
-//   //   } else {
-//   //     navigation.goBack(); // fallback
-//   //   }
-//   // };
-
-//   const handleBack = () => {
-//   if (history.length <= 1) {
-//     navigation.goBack();
-//     return;
-//   }
-
-//   let newHistory = [...history];
-//   newHistory.pop(); // remove current node
-
-//   // Keep popping if the previous node has an alertType and no options (meaning it's not a decision/question)
-//   while (newHistory.length > 0) {
-//     const lastKey = newHistory[newHistory.length - 1];
-//     const lastNode = tree[lastKey];
-//     if (lastNode?.alertType && (!lastNode.options || lastNode.options.length === 0)) {
-//       newHistory.pop();
-//     } else {
-//       break;
-//     }
-//   }
-
-//   if (newHistory.length === 0) {
-//     navigation.goBack();
-//   } else {
-//     setHistory(newHistory);
-//   }
-// };
-
-//   const handleBackToSubtopics = () => {
-//     navigation.goBack();
-//   };
-
-//   if (!node) {
-//     return (
-//       <View style={{padding: 16}}>
-//         <Text>Invalid node</Text>
-//       </View>
-//     );
-//   }
-// useEffect(() => {
-//   if (node?.alertType) {
-//     const title = node.alertType === 'warning' ? '🟡 Caution' : '🔴 Alert';
-//     const colorMessage =
-//       node.alertType === 'warning'
-//         ? 'This requires attention.'
-//         : 'This is an urgent issue.';
-
-//     Alert.alert('', {node.question}, [
-//       {
-//         text: 'OK',
-//         onPress: () => {
-//           if (node.autoNext) {
-//             setHistory(prev => [...prev, node.autoNext]);
-//           }
-//           console.log(node, "NODE.AUTONEXT")
-//         },
-//       },
-//     ]);
-//   }
-// }, [node]);
-
-//   return (
-//     <ScrollView contentContainerStyle={{padding: 20}}>
-//       {!node.alertType && <>
-//       <Text style={{fontSize: 18, marginBottom: 20, fontFamily:Fonts.fontABold}}>
-//         {node.question}
-//       </Text>
-
-//       {node.options.length > 0 ? (
-//         node.options.map((option, idx) => (
-//           <TouchableOpacity
-//             key={idx}
-//             onPress={() => handleOptionSelect(option.next)}
-//             style={{
-//               padding: 12,
-//               backgroundColor: '#ccc',
-//               marginVertical: 6,
-//               borderRadius: 6,
-//             }}>
-//             <Text style={{ fontFamily:Fonts.fontAMedium}}>{option.label}</Text>
-//           </TouchableOpacity>
-//         ))
-//       ) : (
-//         <>
-
-//           <Text style={{fontSize: 16, color: 'green', marginBottom: 16}}>
-//             End of flowchart.
-//           </Text>
-//           <TouchableOpacity
-//             onPress={handleBackToSubtopics}
-//             style={{backgroundColor: '#4CAF50', padding: 14, borderRadius: 8}}>
-//             <Text style={{color: '#fff', textAlign: 'center'}}>
-//               Back to Subtopics
-//             </Text>
-//           </TouchableOpacity>
-
-//         </>
-//       )}
-
-//       {history.length > 1 && (
-//         <TouchableOpacity
-//           onPress={handleBack}
-//           style={{
-//             marginTop: 20,
-//             backgroundColor: '#999',
-//             padding: 12,
-//             borderRadius: 6,
-//           }}>
-//           <Text style={{color: 'white', textAlign: 'center'}}>
-//             Back to Previous Question
-//           </Text>
-//         </TouchableOpacity>
-
-//       )}
-
-//       </>}
-//     </ScrollView>
-//   );
-// };
-
-// export default DecisionTreeScreen;

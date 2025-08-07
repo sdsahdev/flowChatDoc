@@ -9,15 +9,9 @@ const singleLegStanceTwo: DecisionTree = {
       {label: 'DP', next: 'pronePassiveDorsiflexionFromOthers'},
       {label: 'FP', next: 'pronePassiveDorsiflexionFromOthers'},
     ],
+    image: require('../../assets/image/73-HeelWalks.png'),
   },
-  //   pronePassiveDorsiflexionFromFN: {
-  //     question: 'Prone Passive Dorsiflexion',
-  //     options: [
-  //       { label: 'DP or FP', next: 'treatPain' },
-  //       { label: 'FN', next: 'dorsiflexionSMCD' },
-  //       { label: 'DN', next: 'lowerPosteriorTED' },
-  //     ],
-  //   },
+
   pronePassiveDorsiflexionFromOthers: {
     question: 'Prone Passive Dorsiflexion',
     options: [
@@ -26,24 +20,25 @@ const singleLegStanceTwo: DecisionTree = {
       {label: 'DP', next: 'treatPain'},
       {label: 'FP', next: 'treatPain'},
     ],
+    image: require('../../assets/image/74-PronePassiveDorsiflexion.png'),
   },
   treatPain: {
     question: 'Treat Pain',
     options: [],
     alertType: 'warning',
-    autoNext:'toeWalks',
+    autoNext: 'toeWalks',
   },
   dorsiflexionSMCD: {
     question: 'Dorsiflexion SMCD',
     options: [],
     alertType: 'warning',
-    autoNext:'toeWalks',
+    autoNext: 'toeWalks',
   },
   lowerPosteriorTED: {
     question: 'Lower Posterior Chain TED &/or JMD',
     options: [],
     alertType: 'warning',
-    autoNext:'toeWalks',
+    autoNext: 'toeWalks',
   },
   toeWalks: {
     question: 'Toe Walks',
@@ -62,26 +57,27 @@ const singleLegStanceTwo: DecisionTree = {
       {label: 'DP', next: 'treatPain1'},
       {label: 'FP', next: 'treatPain1'},
     ],
+    image: require('../../assets/image/76-PronePassivePlantarflexion.png'),
   },
   plantarflexionSMCD: {
     question: 'Plantarflexion SMCD',
     options: [],
     alertType: 'warning',
-    autoNext:'seatedActiveInversionEversion',
+    autoNext: 'seatedActiveInversionEversion',
   },
   lowerAnteriorTED: {
     question: 'Lower Anterior Chain TED &/or JMD',
     options: [],
     alertType: 'warning',
-    autoNext:'seatedActiveInversionEversion',
+    autoNext: 'seatedActiveInversionEversion',
   },
   treatPain1: {
     question: 'Treat Pain',
     options: [],
     alertType: 'warning',
-    autoNext:'seatedActiveInversionEversion',
+    autoNext: 'seatedActiveInversionEversion',
   },
-  
+
   seatedActiveInversionEversion: {
     question: 'Seated Active Ankle Inversion/Eversion',
     options: [
@@ -90,6 +86,7 @@ const singleLegStanceTwo: DecisionTree = {
       {label: 'DP', next: 'passiveAnkleInversionEversion'},
       {label: 'FP', next: 'passiveAnkleInversionEversion'},
     ],
+    image: require('../../assets/image/77-SeatedActiveAnkleInversion-Eversion.png'),
   },
   passiveAnkleInversionEversion: {
     question: 'Passive Ankle Inversion/Eversion',
@@ -99,36 +96,37 @@ const singleLegStanceTwo: DecisionTree = {
       {label: 'DP', next: 'treatPain2'},
       {label: 'FP', next: 'treatPain2'},
     ],
+    image: require('../../assets/image/78-PassiveAnkleInversion-Eversion2.png'),
   },
   jmdTEDLocalExam: {
     question:
       'Ankle (Eversion or Inversion) JMD, TED - * Perform local foot/ankle exam',
     options: [],
     alertType: 'warning',
-    autoNext:'end',
+    autoNext: 'end',
   },
   smcdLocalExam: {
     question:
       'Ankle (Eversion or Inversion) SMCD - * Perform local foot/ankle exam',
     options: [],
     alertType: 'warning',
-    autoNext:'end',
+    autoNext: 'end',
   },
   proprioceptiveDeficit: {
     question:
       'If no Red, Orange or Positive Blue Boxes so far = Proprioceptive Deficit',
     options: [],
     alertType: 'warning',
-    autoNext:'end',
+    autoNext: 'end',
   },
-   treatPain2: {
+  treatPain2: {
     question: 'Treat Pain',
     options: [],
     alertType: 'warning',
-    autoNext:'end',
+    autoNext: 'end',
   },
-   end: {
-    question: 'End of Flowchart',
+  end: {
+    question: 'Thank you for using M-Screen..',
     options: [],
   },
 };

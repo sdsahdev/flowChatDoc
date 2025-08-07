@@ -4,15 +4,16 @@ const multiSegmentalExtOne: DecisionTree = {
   start: {
     question: 'Backward Bend without Upper Extremities',
     options: [
-      {label: 'FN', next: 'goToUBExtFlowchart'},
+      {label: 'FN', next: 'goToUBExtFlow'},
       {label: 'DN', next: 'singleLegBB'},
       {label: 'DP', next: 'singleLegBB'},
       {label: 'FP', next: 'singleLegBB'},
     ],
+    image: require('../../assets/image/33-BackwardBendwithoutUE.png'),
   },
 
-  goToUBExtFlowchart: {
-    question: 'Go to Upper Body Extension Flowchart',
+  goToUBExtFlow: {
+    question: 'Go to Upper Body Extension Flow',
     options: [],
     alertType: 'warning',
     autoNext: 'end',
@@ -26,11 +27,12 @@ const multiSegmentalExtOne: DecisionTree = {
       {label: 'DP', next: 'pressUp'},
       {label: 'FP', next: 'pressUp'},
     ],
+    image: require('../../assets/image/34-SingleLegBB.png'),
   },
 
   symmetricalStanceCoreSMCD: {
     question:
-      'Symmetrical Stance Core SMCD or Anterior Torso TED — Go to Upper Body Extension Flowchart',
+      'Symmetrical Stance Core SMCD or Anterior Torso TED — Go to Upper Body Extension Flow',
     options: [],
     alertType: 'warning',
     autoNext: 'end',
@@ -44,11 +46,12 @@ const multiSegmentalExtOne: DecisionTree = {
       {label: 'DP (> 1 Airex Pad)', next: 'lumbarLockedActive'},
       {label: 'FP (> 1 Airex Pad)', next: 'lumbarLockedActive'},
     ],
+    image: require('../../assets/image/35-PressUp.png'),
   },
 
   weightBearingSpineExtSMCD: {
     question:
-      'Weight Bearing Spine Extension SMCD — Go to Lower & Upper Body Extension Flowcharts',
+      'Weight Bearing Spine Extension SMCD — Go to Lower & Upper Body Extension Flows',
     options: [],
     alertType: 'warning',
     autoNext: 'end',
@@ -62,6 +65,7 @@ const multiSegmentalExtOne: DecisionTree = {
       {label: 'DP', next: 'lumbarLockedPassive'},
       {label: 'FP', next: 'lumbarLockedPassive'},
     ],
+    image: require('../../assets/image/36-LumbarLocked(IR)-ActiveExtension-Rotation(50°).png'),
   },
 
   lumbarLockedPassive: {
@@ -72,10 +76,11 @@ const multiSegmentalExtOne: DecisionTree = {
       {label: 'DP', next: 'treatPainGoToLowerBody'},
       {label: 'FP', next: 'treatPainGoToLowerBody'},
     ],
+    image: require('../../assets/image/37-LumbarLocked(IR)-PassiveExtension-Rotation(50°).png'),
   },
 
   treatPainGoToLowerBody: {
-    question: 'Treat Pain — Go to Lower Body Ext. Flowchart',
+    question: 'Treat Pain — Go to Lower Body Ext. Flow',
     options: [],
     alertType: 'danger',
     autoNext: 'end',
@@ -90,20 +95,21 @@ const multiSegmentalExtOne: DecisionTree = {
 
   thoracicExtJMD: {
     question:
-      'Thoracic Extension/Rotation JMD and/or TED — Go to Lower Body Ext. Flowchart',
+      'Thoracic Extension/Rotation JMD and/or TED — Go to Lower Body Ext. Flow',
     options: [],
     alertType: 'danger',
     autoNext: 'end',
   },
 
   activeProneElbowUniExtRot: {
-    question: 'Active Prone on Elbow — Unilateral Extension/Rotation (30°)',
+    question: 'Active Prone on Elbow  Unilateral Extension/Rotation (30°)',
     options: [
       {label: 'FN', next: 'assumeLSpineNormal'},
       {label: 'DN', next: 'passiveProneElbowExtRot'},
       {label: 'DP', next: 'passiveProneElbowExtRot'},
       {label: 'FP', next: 'passiveProneElbowExtRot'},
     ],
+    image: require('../../assets/image/38-ActiveProneonElbowUnilateralExtension-Rotation(30°).png'),
   },
 
   assumeLSpineNormal: {
@@ -114,18 +120,19 @@ const multiSegmentalExtOne: DecisionTree = {
   },
 
   passiveProneElbowExtRot: {
-    question: 'Passive Prone on Elbow — Unilateral Ext./Rotation (30°)',
+    question: 'Passive Prone on Elbow  Unilateral Ext./Rotation (30°)',
     options: [
       {label: 'FN', next: 'weightBearingSpineExtSMCDFinal'},
       {label: 'DN', next: 'lumbarExtJMD_TED'},
       {label: 'DP', next: 'treatPainGoToLowerThenUB'},
       {label: 'FP', next: 'treatPainGoToLowerThenUB'},
     ],
+    image: require('../../assets/image/39-PassiveProneonElbUniExt-Rot(30°).png'),
   },
 
   weightBearingSpineExtSMCDFinal: {
     question:
-      'Weight Bearing Spine Extension SMCD or Anterior Torso TED — Go to LB then UB Ext. Flowchart',
+      'Weight Bearing Spine Extension SMCD or Anterior Torso TED — Go to LB then UB Ext. Flow',
     options: [],
     alertType: 'warning',
     autoNext: 'end',
@@ -133,21 +140,21 @@ const multiSegmentalExtOne: DecisionTree = {
 
   lumbarExtJMD_TED: {
     question:
-      'Lumbar Extension/Rotation JMD and/or TED — Go to Lower Body then Upper Body Ext. Flowchart',
+      'Lumbar Extension/Rotation JMD and/or TED — Go to Lower Body then Upper Body Ext. Flow',
     options: [],
     alertType: 'danger',
     autoNext: 'end',
   },
 
   treatPainGoToLowerThenUB: {
-    question: 'Treat Pain — Go to Lower Body then Upper Body Ext. Flowchart',
+    question: 'Treat Pain — Go to Lower Body then Upper Body Ext. Flow',
     options: [],
     alertType: 'danger',
     autoNext: 'end',
   },
 
   end: {
-    question: 'End of Flowchart.',
+    question: 'Thank you for using M-Screen...',
     options: [],
   },
 };

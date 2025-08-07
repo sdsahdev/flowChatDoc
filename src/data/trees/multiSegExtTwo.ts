@@ -9,6 +9,7 @@ const multiSegmentalExtTwo: DecisionTree = {
       {label: 'DP', next: 'stabilizedFABER'},
       {label: 'FP', next: 'stabilizedFABER'},
     ],
+    image: require('../../assets/image/40-FABERTest.png'),
   },
 
   stabilizedFABER: {
@@ -19,6 +20,7 @@ const multiSegmentalExtTwo: DecisionTree = {
       {label: 'DP', next: 'hipSIJMD_TED'},
       {label: 'FP', next: 'hipSIJMD_TED'},
     ],
+    image: require('../../assets/image/41-StabilizedFABERTest.png'),
   },
 
   hipCoreSMCD: {
@@ -41,12 +43,16 @@ const multiSegmentalExtTwo: DecisionTree = {
     options: [
       {label: 'FN with Knee Straight', next: 'lowerAnteriorChainTED'},
       {label: 'FN with Hip Abducted', next: 'lowerLateralChainTED'},
-      {label: 'FN with Hip Abducted & Knee Straight', next: 'lowerAnteriorAndLateralChainTED' },
+      {
+        label: 'FN with Hip Abducted & Knee Straight',
+        next: 'lowerAnteriorAndLateralChainTED',
+      },
       {label: 'DN', next: 'hipExtJMD_TED_SMCD'},
       {label: 'DP', next: 'treatPain'},
       {label: 'FP', next: 'treatPain'},
       {label: 'FN', next: 'treatFABERFirst'}, // For double FN
     ],
+    image: require('../../assets/image/42-ModifiedThomas.png'),
   },
 
   lowerAnteriorChainTED: {
@@ -93,16 +99,20 @@ const multiSegmentalExtTwo: DecisionTree = {
   proneActiveHipExtension: {
     question: 'Prone Active Hip Extension',
     options: [
-      {label: 'FN (> or = 10 degrees Extension)', next: 'checkSpineOrHipExtSMCD'},
+      {
+        label: 'FN (> or = 10 degrees Extension)',
+        next: 'checkSpineOrHipExtSMCD',
+      },
       {label: 'DN', next: 'pronePassiveHipExtension'},
       {label: 'DP', next: 'pronePassiveHipExtension'},
       {label: 'FP', next: 'pronePassiveHipExtension'},
     ],
+    image: require('../../assets/image/43-ProneActiveHipExtension.png'),
   },
 
   checkSpineOrHipExtSMCD: {
     question:
-      'If Spine Extension was dysfunctional, consider Hip normal. If not, consider Weight Bearing Hip Extension SMCD &/or Limited Ankle Dorsiflexion (Refer to ODS & SLS)',
+      'If Spine Extension was dysfunctional consider Hip normal. If not - there is a Weight Bearing Hip Extension SMCD &/or Limited Ankle Dorsiflexion (Refer to ODS & SLS).',
     options: [],
     alertType: 'success',
     autoNext: 'end',
@@ -114,8 +124,9 @@ const multiSegmentalExtTwo: DecisionTree = {
       {label: 'FN', next: 'coreSMCD_orActiveHipSMCD'},
       {label: 'DN', next: 'hipExtJMD_TED'},
       {label: 'DP', next: 'treatPain'},
-      {label: 'FP', next: 'treatPain'},      
+      {label: 'FP', next: 'treatPain'},
     ],
+    image: require('../../assets/image/44-PronePassiveHipExtension.png'),
   },
 
   hipExtJMD_TED: {
@@ -133,7 +144,7 @@ const multiSegmentalExtTwo: DecisionTree = {
   },
 
   end: {
-    question: 'End of Flowchart',
+    question: 'Thank you for using M-Screen..',
     options: [],
   },
 };

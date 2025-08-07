@@ -5,11 +5,12 @@ const multiSegmentalFlexionTree: DecisionTree = {
     question: 'Single Leg Forward Bend',
     options: [
       {label: 'FN', next: 'longSitting_Bilateral'},
-      {label: 'Bilateral DN', next: 'longSitting_Bilateral'},
-      {label: 'Unilateral DN', next: 'longSitting_Bilateral'},
-      {label: ' DP ', next: 'longSitting_Bilateral'},
-      {label: ' FP', next: 'longSitting_Bilateral'},
+      {label: 'Bilateral DN, DP or FP', next: 'longSitting_Bilateral'},
+      {label: 'Unilateral DN, DP or FP', next: 'longSitting_Bilateral'},
+      // {label: ' DP ', next: 'longSitting_Bilateral'},
+      // {label: ' FP', next: 'longSitting_Bilateral'},
     ],
+    image: require('../../assets/image/27-SingleLegForwardBend.png'),
   },
 
   longSitting_Fn: {
@@ -27,8 +28,8 @@ const multiSegmentalFlexionTree: DecisionTree = {
       {label: 'DP ', next: 'activeSLR'},
       {label: 'FP', next: 'activeSLR'},
     ],
+    image: require('../../assets/image/28-LongSitting.png'),
   },
-
 
   weightBearing_HipFlexionSMCD: {
     question: 'Weight Bearing Hip Flexion Pattern SMCD',
@@ -45,6 +46,7 @@ const multiSegmentalFlexionTree: DecisionTree = {
       {label: 'DP (<70°)', next: 'passiveSLR'},
       {label: 'FP (<70°)', next: 'passiveSLR'},
     ],
+    image: require('../../assets/image/29-ActiveSLR.png'),
   },
 
   passiveSLR: {
@@ -55,6 +57,7 @@ const multiSegmentalFlexionTree: DecisionTree = {
       {label: 'DP', next: 'supineKneeChest'},
       {label: 'FP', next: 'supineKneeChest'},
     ],
+    image: require('../../assets/image/30-PassiveSLR.png'),
   },
 
   coreSMCD: {
@@ -72,6 +75,7 @@ const multiSegmentalFlexionTree: DecisionTree = {
       {label: 'DP', next: 'proneRocking'},
       {label: 'FP', next: 'proneRocking'},
     ],
+    image: require('../../assets/image/32-SupineKneetoChest(T)2ndimage.png'),
   },
 
   posteriorChainTED: {
@@ -97,6 +101,7 @@ const multiSegmentalFlexionTree: DecisionTree = {
       {label: 'DP', next: 'treatPain'},
       {label: 'FP', next: 'treatPain'},
     ],
+    image: require('../../assets/image/31-ProneRocking.png'),
   },
 
   spinalFlexion_JMD_TED: {
@@ -107,12 +112,12 @@ const multiSegmentalFlexionTree: DecisionTree = {
   },
 
   weightBearingSpineSMCD: {
-    question:
-      'If no previous mobility findings, consider this a Weight Bearing Spine &/or Hip SMCD – otherwise treat orange boxes first.',
+    question: `If no previous mobility findings consider this a Weight Bearing Spine &/or Hip SMCD - otherwise first treat 'Core SMCD &/or Active Hip Flexion SMCD', 'Posterior Chain TED or if PSLR was FP could be Active Hip Flexion SMCD', 'Hip JMD &/or Posterior Chain TED'.`,
     options: [],
     alertType: 'warning',
     autoNext: 'end',
   },
+
   treatPain: {
     question: 'Treat Pain',
     options: [],
@@ -121,7 +126,7 @@ const multiSegmentalFlexionTree: DecisionTree = {
   },
 
   end: {
-    question: 'End of flowchart.',
+    question: 'Thank you for using M-Screen...',
     options: [],
   },
 };

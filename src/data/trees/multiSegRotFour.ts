@@ -4,11 +4,12 @@ const multiSegmentalRotFour: DecisionTree = {
   start: {
     question: 'Seated Active Internal Tibial Rot.',
     options: [
-      { label: 'FN', next: 'seatedActiveExternalTibialRotation' },
-      { label: 'DN, DP or FP', next: 'passiveInternalTibialRotation' },
-      { label: 'DN, DP or FP', next: 'passiveInternalTibialRotation' },
-      { label: 'DN, DP or FP', next: 'passiveInternalTibialRotation' },
+      {label: 'FN', next: 'seatedActiveExternalTibialRotation'},
+      {label: 'DN', next: 'passiveInternalTibialRotation'},
+      {label: 'DP', next: 'passiveInternalTibialRotation'},
+      {label: 'FP', next: 'passiveInternalTibialRotation'},
     ],
+    image: require('../../assets/image/65-SeatedActInternalTibialRot..png'),
   },
 
   passiveInternalTibialRotation: {
@@ -31,18 +32,19 @@ const multiSegmentalRotFour: DecisionTree = {
         next: 'seatedActiveExternalTibialRotation',
       },
     ],
+    image: require('../../assets/image/66-PassiveInternalTibialRotation.png'),
   },
 
   tibialRotationSMCD: {
     question: 'Tibial Rotation SMCD',
-    options:[],
+    options: [],
     alertType: 'warning',
     autoNext: 'seatedActiveExternalTibialRotation',
   },
 
   tibialIntRot_TED_JMD: {
     question: 'Tibial Int. Rot. TED &/or JMD',
-    options:[],
+    options: [],
     alertType: 'warning',
     autoNext: 'seatedActiveExternalTibialRotation',
   },
@@ -67,12 +69,13 @@ const multiSegmentalRotFour: DecisionTree = {
         next: 'passiveExternalTibialRotation',
       },
     ],
+    image: require('../../assets/image/67-SeatedActExternalTibialRot..png'),
   },
 
   tibialRotationNormal: {
     question:
-      'Tibia External Rotation Mobility is Normal (If no previous rotation findings – Go to Lower Body Extension Flowchart)',
-      options:[],
+      'Tibia External Rotation Mobility is Normal (If no previous rotation findings – Go to Lower Body Extension Flow)',
+    options: [],
     alertType: 'success',
     autoNext: 'end',
   },
@@ -101,26 +104,26 @@ const multiSegmentalRotFour: DecisionTree = {
 
   tibialRotationSMCD_2: {
     question: 'Tibial Rotation SMCD',
-    options:[],
+    options: [],
     alertType: 'success',
     autoNext: 'end',
   },
 
   tibialExtRot_TED_JMD: {
     question: 'Tibial Ext. Rot. TED &/or JMD',
-    options:[],
+    options: [],
     alertType: 'success',
     autoNext: 'end',
   },
   treatPain: {
     question: 'Treat Pain',
     options: [],
-    alertType: 'danger', // red  
-    autoNext:'end',
+    alertType: 'danger', // red
+    autoNext: 'end',
   },
 
   end: {
-    question: 'End of Flowchart',
+    question: 'Thank you for using M-Screen..',
     options: [],
   },
 };

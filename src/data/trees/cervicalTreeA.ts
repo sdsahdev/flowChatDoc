@@ -9,7 +9,7 @@ const cervicalTreeA: DecisionTree = {
       {label: 'DP', next: 'passiveFlex'},
       {label: 'FP', next: 'passiveFlex'},
     ],
-    image: require('../../assets/image/splash.jpeg'),
+    image: require('../../assets/image/01cervicalTree1.png'),
   },
 
   posturalSMCD: {
@@ -27,6 +27,7 @@ const cervicalTreeA: DecisionTree = {
       {label: 'DP', next: 'activeOAFlex'},
       {label: 'FP', next: 'activeOAFlex'},
     ],
+    image: require('../../assets/image/02-Passive Supine Cervical Flexion Test.png'),
   },
 
   cervicalSpineSMCD: {
@@ -43,6 +44,7 @@ const cervicalTreeA: DecisionTree = {
       {label: 'DP', next: 'oaOrCervicalJMD'},
       {label: 'FP', next: 'oaOrCervicalJMD'},
     ],
+    image: require('../../assets/image/03-ActiveSupineOACervicalFlexionTest(20˚).png'),
   },
 
   oaFlexJMD: {
@@ -68,7 +70,7 @@ const cervicalTreeA: DecisionTree = {
     autoNext: 'end',
   },
   end: {
-    question: 'End of Flowchart',
+    question: 'Thank you for using M-Screen..',
     options: [],
   },
 };

@@ -9,6 +9,7 @@ const overHeadOne: DecisionTree = {
       {label: 'DP', next: 'halfKneelingDorsiflexion'},
       {label: 'FP', next: 'halfKneelingDorsiflexion'},
     ],
+    image: require('../../assets/image/79-DeepSquat.png'),
   },
   multiSegmentalExtension: {
     question: 'If Squat is now FN - Go to Multi-Segmental Extension Breakout',
@@ -24,6 +25,7 @@ const overHeadOne: DecisionTree = {
       {label: 'DP', next: 'treatPain'},
       {label: 'FP', next: 'treatPain'},
     ],
+    image: require('../../assets/image/80-HalfKneelingDorsiflexion.png'),
   },
   treatPain: {
     question: 'Treat Pain',
@@ -51,6 +53,7 @@ const overHeadOne: DecisionTree = {
       },
       {label: 'FN w/ FN Dorsiflexion', next: 'assistedSquat'},
     ],
+    image: require('../../assets/image/81-SupineKneestoChestHoldingShins.png'),
   },
   treatDorsiflexionChemicalPain: {
     question: 'Treat Dorsiflexion Chemical Pain',
@@ -72,24 +75,25 @@ const overHeadOne: DecisionTree = {
       {label: 'DP', next: 'treatChemicalPain'},
       {label: 'FP', next: 'treatChemicalPain'},
     ],
+    image: require('../../assets/image/82-SupineKneestoChestHoldingthighs.png'),
   },
   kneeJMDorLowerAnteriorTED: {
     question: 'Knee JMD (Flexion) &/or Lower Anterior Chain TED',
     options: [],
     alertType: 'warning',
-    autoNext:'end',
+    autoNext: 'end',
   },
   treatChemicalPain: {
     question: 'Treat Chemical Pain',
     options: [],
     alertType: 'danger',
-    autoNext:'end',
+    autoNext: 'end',
   },
   hipJMDorPosteriorTED: {
     question: 'Hip JMD &/or Posterior Chain TED, but still can have Knee JMD',
     options: [],
     alertType: 'warning',
-    autoNext:'end',
+    autoNext: 'end',
   },
   assistedSquat: {
     question: 'Assisted Squat',
@@ -99,27 +103,29 @@ const overHeadOne: DecisionTree = {
       {label: 'DP', next: 'treatChemicalPainInAnyJoint'},
       {label: 'FP', next: 'treatChemicalPainInAnyJoint'},
     ],
+    image: require('../../assets/image/83-Assisted-Squat.jpg'),
   },
   weightBearingAnkleKneeHipTED: {
     question: 'Weight Bearing Ankle, Knee and/or Hip/Core Flexion SMCD',
     options: [],
     alertType: 'success',
-    autoNext:'end',
+    autoNext: 'end',
   },
   weightBearingSMCD: {
     question:
       'Weight Bearing Ankle, Knee and/or Hip/Core Flexion SMCD. Go to MSK Breakout',
     options: [],
     alertType: 'success',
-    autoNext:'end',
+    autoNext: 'end',
   },
   treatChemicalPainInAnyJoint: {
     question: 'Treat Chemical Pain in Hip, Knee or Ankle.',
     options: [],
     alertType: 'danger',
+    autoNext: 'end',
   },
   end: {
-    question: 'End of Flowchart',
+    question: 'Thank you for using M-Screen..',
     options: [],
   },
 };

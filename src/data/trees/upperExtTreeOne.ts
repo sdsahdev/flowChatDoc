@@ -9,6 +9,7 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'DP', next: 'passiveProneUE1'},
       {label: 'FP', next: 'passiveProneUE1'},
     ],
+    image: require('../../assets/image/08-ActiveProneUpperExtremityPatternOne(IR).png'),
   },
   passiveProneUE1: {
     question: 'Passive Prone Upper Extremity Pattern One (IR)',
@@ -18,6 +19,7 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'DP', next: 'activeProneShoulderIR'},
       {label: 'FP', next: 'activeProneShoulderIR'},
     ],
+    image: require('../../assets/image/10-PassiveProneUpperExtremityPatternOne(IR).png'),
   },
   activeProneShoulderIR: {
     question:
@@ -28,6 +30,7 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'DP', next: 'passiveProneShoulderIR'},
       {label: 'FP', next: 'passiveProneShoulderIR'},
     ],
+    image: require('../../assets/image/12-ActiveProneshoulder90-90IRtest(60&orTotalArcof150).png'),
   },
   passiveProneShoulderIR: {
     question: 'Passive Prone Shoulder IR Test',
@@ -37,6 +40,7 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'DP', next: 'treatChemPainIR'},
       {label: 'FP', next: 'treatChemPainIR'},
     ],
+    image: require('../../assets/image/13-PassiveProneShoulderIRTest.png'),
   },
   shoulderIR_SMCD: {
     question: 'Shoulder IR SMCD',
@@ -64,6 +68,7 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'DP', next: 'passiveShoulderExt'},
       {label: 'FP', next: 'passiveShoulderExt'},
     ],
+    image: require('../../assets/image/16-ActiveProneShoulderExtTest(50°).png'),
   },
   passiveShoulderExt: {
     question: 'Passive Prone Shoulder Ext. Test',
@@ -73,6 +78,7 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'DP', next: 'treatChemPainExt'},
       {label: 'FP', next: 'treatChemPainExt'},
     ],
+    image: require('../../assets/image/17-PassiveProneShoulderExtTest.png'),
   },
   shoulderExt_SMCD: {
     question: 'Shoulder Ext. SMCD',
@@ -87,7 +93,7 @@ const upperExtTreeOne: DecisionTree = {
     autoNext: 'activeElbowFlex',
   },
   treatChemPainExt: {
-    question: 'Treat Chem Pain',
+    question: 'Treat Chemical Pain',
     options: [],
     alertType: 'warning', // yellow
     autoNext: 'activeElbowFlex',
@@ -102,6 +108,7 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'DP', next: 'passiveElbowFlex'},
       {label: 'FP', next: 'passiveElbowFlex'},
     ],
+    image: require('../../assets/image/09-ActProneElbowFlexTest(Ext).png'),
   },
   passiveElbowFlex: {
     question: 'Passive Prone Elbow Flexion Test (Ext.)',
@@ -111,6 +118,7 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'FP', next: 'treatPainElbow'},
       {label: 'DN', next: 'elbowFlex_JMD'},
     ],
+    image: require('../../assets/image/11-PassiveProneElbowFlexionTest(Ext).png'),
   },
   elbowFlex_SMCD: {
     question: 'Elbow Flex SMCD',
@@ -138,6 +146,14 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'DP', next: 'lumbarLockedPassive'},
       {label: 'FP', next: 'lumbarLockedPassive'},
     ],
+    image: require('../../assets/image/14-LumbarLocked(CH)ActExtandRot.png'),
+  },
+  ifNoPrevious: {
+    question:
+      'If no previous Orange Boxes consider this a Postural &/or Shoulder Girdle SMCD. Otherwise treat orange boxes first.',
+    options: [],
+    alertType: 'success', // green
+    autoNext: 'end',
   },
   lumbarLockedPassive: {
     question: 'Lumbar Locked (CH) Passive Ext./Rot.',
@@ -147,14 +163,9 @@ const upperExtTreeOne: DecisionTree = {
       {label: 'DP', next: 'treatPlain'},
       {label: 'FP', next: 'treatPlain'},
     ],
+    image: require('../../assets/image/15-LumbarLocked(CH)PassiveExtandRot.png'),
   },
-  ifNoPrevious: {
-    question:
-      'If no previous Orange Boxes consider this a Postural &/or Shoulder Girdle SMCD. Otherwise treat orange boxes first.',
-    options: [],
-    alertType: 'success', // green
-    autoNext: 'end',
-  },
+
   treatPlain: {
     question: 'Treat Plain',
     options: [],
@@ -174,7 +185,7 @@ const upperExtTreeOne: DecisionTree = {
     autoNext: 'end',
   },
   end: {
-    question: 'End of Flowchart',
+    question: 'Thank you for using M-Screen..',
     options: [],
   },
 };

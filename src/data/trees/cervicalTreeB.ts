@@ -9,33 +9,13 @@ const cervicalTreeB: DecisionTree = {
       {label: 'DP', next: 'passiveRotation'},
       {label: 'FP', next: 'passiveRotation'},
     ],
+    image: require('../../assets/image/04-ActiveSupineCervicalRotationTest(80˚).png'),
   },
   posturalSMCDRotation: {
     question:
       'There is a Postural SMCD affecting Cervical Rotation. This includes Cervical Spine, Thoracic Spine and Shoulder Girdle postural dysfunction.',
     options: [],
     alertType: 'warning', // yellow
-    autoNext: 'supineExt',
-  },
-  supineExt: {
-    question: 'Supine Cervical Extension',
-    options: [
-      {label: 'FN', next: 'SMCD'},
-      {label: 'DN', next: 'TED'},
-      {label: 'DP', next: 'done'},
-      {label: 'FP', next: 'done'},
-    ],
-  },
-  SMCD: {
-    question: 'There is Postural &/or SMCD affecting Cervical Extension.',
-    options: [],
-    alertType: 'warning',
-    autoNext: 'end',
-  },
-  TED: {
-    question: 'Cervical Extension JMD &/or TED',
-    options: [],
-    alertType: 'warning',
     autoNext: 'end',
   },
 
@@ -47,6 +27,7 @@ const cervicalTreeB: DecisionTree = {
       {label: 'DP', next: 'c1c2Rotation'},
       {label: 'FP', next: 'c1c2Rotation'},
     ],
+    image: require('../../assets/image/05-PassiveSupineCervicalRotationTest.png'),
   },
   activeRotationSMCD: {
     question: 'Active Cervical Spine Rotation SMCD',
@@ -62,6 +43,7 @@ const cervicalTreeB: DecisionTree = {
       {label: 'FP', next: 'done'},
       {label: 'DP', next: 'done'},
     ],
+    image: require('../../assets/image/07-C1-C2CervicalRotationTest.png'),
   },
   lowerCervicalJMDorTED: {
     question:
@@ -84,7 +66,7 @@ const cervicalTreeB: DecisionTree = {
     autoNext: 'end',
   },
   end: {
-    question: 'End of Flowchart',
+    question: 'Thank you for using M-Screen..',
     options: [],
   },
 };

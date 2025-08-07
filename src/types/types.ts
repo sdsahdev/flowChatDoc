@@ -6,8 +6,13 @@ export interface DecisionTreeNode {
   autoNext?: string;
   options: {label: string; next: string}[];
   image?: string | ImageSourcePropType;
+  
 }
-
+export interface NestedTopic {
+  id: string;
+  title: string;
+  tree: DecisionTree;
+}
 export interface DecisionTree {
   [key: string]: DecisionTreeNode;
 }
@@ -15,7 +20,9 @@ export interface DecisionTree {
 export interface Subtopic {
   id: string;
   title: string;
-  tree: DecisionTree;
+  tree?: DecisionTree;
+    nestedTopics?: NestedTopic[];
+
 }
 
 export interface MainTopic {
