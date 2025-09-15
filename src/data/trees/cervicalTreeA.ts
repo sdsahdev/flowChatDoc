@@ -56,7 +56,7 @@ const cervicalTreeA: DecisionTree = {
   },
 
   oaOrCervicalJMD: {
-    question: 'Treat Plain',
+    question: 'Treat Pain',
     options: [],
     alertType: 'danger', // yellow
     autoNext: 'end',

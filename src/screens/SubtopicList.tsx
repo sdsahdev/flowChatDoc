@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Platform,
   StatusBar,
-  SafeAreaView,
 } from 'react-native';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,6 +15,7 @@ import {Subtopic} from '../types/types';
 import {RootStackParamList} from '../navigation/AppNavigator';
 import Colors from '../theme/color';
 import {Fonts} from '../theme/fonts';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 type RouteProps = RouteProp<RootStackParamList, 'SubtopicList'>;
 
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   headerContainer: {
     flexDirection: 'row',

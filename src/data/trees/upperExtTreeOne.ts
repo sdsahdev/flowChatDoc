@@ -150,7 +150,7 @@ const upperExtTreeOne: DecisionTree = {
   },
   ifNoPrevious: {
     question:
-      'If no previous Orange Boxes consider this a Postural &/or Shoulder Girdle SMCD. Otherwise treat orange boxes first.',
+      'Consider this a Postural &/or Shoulder Girdle SMCD. Otherwise treat orange boxes first.',
     options: [],
     alertType: 'success', // green
     autoNext: 'end',
@@ -167,7 +167,7 @@ const upperExtTreeOne: DecisionTree = {
   },
 
   treatPlain: {
-    question: 'Treat Plain',
+    question: 'Treat Pain',
     options: [],
     alertType: 'danger', // red
     autoNext: 'end',

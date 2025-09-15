@@ -40,7 +40,7 @@ const singleLegStanceOne: DecisionTree = {
         next: 'dynamicVestibularDysfunction',
       },
     ],
-    image: require('../../assets/image/70-CTSIB(DynamicHeadMovement).png'),
+    image: require('../../assets/image/70-CTSIB(DynamicHeadMovement).jpeg'),
   },
 
   dynamicVestibularDysfunction: {

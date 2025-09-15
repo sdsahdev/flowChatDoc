@@ -1,8 +1,8 @@
-
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Video from 'react-native-video';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = () => {
   const navigation = useNavigation();
@@ -15,8 +15,7 @@ const SplashScreen = () => {
     return () => clearTimeout(timer);
   }, []);
 
-
-    useEffect(() => {
+  useEffect(() => {
     const clearSelectionsAndNavigate = async () => {
       try {
         await AsyncStorage.removeItem('decisionTreeSelections');

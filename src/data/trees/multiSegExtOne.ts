@@ -120,7 +120,7 @@ const multiSegmentalExtOne: DecisionTree = {
   },
 
   passiveProneElbowExtRot: {
-    question: 'Passive Prone on Elbow  Unilateral Ext./Rotation (30°)',
+    question: 'Passive Prone on Elbow Unilateral Ext./Rotation (30°)',
     options: [
       {label: 'FN', next: 'weightBearingSpineExtSMCDFinal'},
       {label: 'DN', next: 'lumbarExtJMD_TED'},

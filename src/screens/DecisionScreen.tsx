@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from 'react';
 import {
   TouchableOpacity,
@@ -10,7 +9,6 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  SafeAreaView,
   Platform,
   StatusBar,
 } from 'react-native';
@@ -20,6 +18,7 @@ import {DecisionTree} from '../types/types';
 import {Fonts} from '../theme/fonts';
 import Colors from '../theme/color';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const STORAGE_KEY = 'decisionTreeSelections';
 
@@ -231,7 +230,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   scrollContainer: {
     padding: 24,
@@ -254,14 +253,14 @@ const styles = StyleSheet.create({
   backButton: {
     padding: 8,
     marginRight: 12,
-    marginLeft: 10
+    marginLeft: 10,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: '#000',
     fontFamily: Fonts.fontAMedium,
-    width:'80%',
+    width: '80%',
   },
   questionText: {
     fontSize: 18,
