@@ -48,7 +48,7 @@ const multiSegmentalRotOne: DecisionTree = {
       {label: 'DP', next: 'lumbarLockedIR_Passive'},
       {label: 'FP', next: 'lumbarLockedIR_Passive'},
     ],
-    image: require('../../assets/image/53-LumbarLocked(ER)-ActiveUnilateralExt.-Rot.(50°).png'),
+    image: require('../../assets/image/53-LumbarLockedActiveUnilateralExt.-Rot.(50°).jpeg'),
   },
 
   shoulderGirdleTED_JMD: {

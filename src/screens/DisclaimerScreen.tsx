@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     lineHeight: 22,
-    textAlign: 'justify',
     color: 'black',
     fontFamily: Fonts.fontA,
   },

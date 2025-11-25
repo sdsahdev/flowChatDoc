@@ -113,7 +113,7 @@ const DecisionTreeScreen = () => {
 
   useEffect(() => {
     if (node?.alertType) {
-      Alert.alert('', node.question, [
+      Alert.alert('Conclusion', node.question, [
         {
           text: 'OK',
           onPress: () => {
@@ -160,7 +160,7 @@ const DecisionTreeScreen = () => {
                     : node.image
                 }
                 style={styles.image}
-                resizeMode="cover"
+                resizeMode="contain"
               />
             )}
 
@@ -272,14 +272,14 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: 'cover',
     borderRadius: 16,
-    marginBottom: 24,
+    // marginBottom: 24,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    // borderColor: '#e0e0e0',
+    // shadowColor: '#000',
+    // shadowOffset: {width: 0, height: 2},
+    // shadowOpacity: 0.1,
+    // shadowRadius: 4,
+    // elevation: 3,
   },
   optionButton: {
     padding: 14,

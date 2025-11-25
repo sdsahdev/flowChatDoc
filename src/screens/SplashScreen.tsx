@@ -9,10 +9,10 @@ const SplashScreen = () => {
   const [videoStarted, setVideoStarted] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.replace('DisclaimerScreen');
-    }, 4000); // Match this with your video duration
-    return () => clearTimeout(timer);
+    // const timer = setTimeout(() => {
+    //   navigation.replace('DisclaimerScreen');
+    // }, 4000); // Match this with your video duration
+    // return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -24,9 +24,9 @@ const SplashScreen = () => {
         console.log('Error clearing selections:', e);
       }
 
-      setTimeout(() => {
-        navigation.replace('DisclaimerScreen'); // Or your initial screen
-      }, 3000);
+      // setTimeout(() => {
+      //   navigation.replace('DisclaimerScreen'); // Or your initial screen
+      // }, 3000);
     };
 
     clearSelectionsAndNavigate();
@@ -35,15 +35,16 @@ const SplashScreen = () => {
   return (
     <View style={styles.container}>
       {/* Poster until video is ready */}
-      {!videoStarted && (
+      {/* {!videoStarted && (
         <Image
           source={require('../assets/image/splash_poster.jpg')}
           style={styles.video}
           resizeMode="cover"
         />
-      )}
+      )} */}
 
       <Video
+        resizeMode="center"
         source={require('../assets/videos/splashScreenV.mp4')}
         style={[styles.video, {opacity: videoStarted ? 1 : 0}]}
         // resizeMode="cover"
